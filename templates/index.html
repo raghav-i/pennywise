@@ -5,62 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PennyWise</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" sizes="any" type="image/svg+xml">
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.svg') }}">
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 sidebar">
-                <h1 class="text-center mb-4">PennyWise</h1>
-                <div class="add-expense">
-                    <h2>Add Expense</h2>
-                    <form action="{{ url_for('add_expense') }}" method="POST">
-                        <input type="number" name="amount" step="0.01" placeholder="Amount" required class="form-control mb-2">
-                        <input type="text" name="category" placeholder="Category" required class="form-control mb-2">
-                        <input type="text" name="description" placeholder="Description" required class="form-control mb-2">
-                        <input type="date" name="date" required class="form-control mb-2">
-                        <button type="submit" class="btn btn-primary btn-block">Add Expense</button>
-                    </form>
+                <h1 class="text-center mb-4"><i class="fas fa-piggy-bank"></i> PennyWise</h1>
+                <div class="add-expense card">
+                    <div class="card-body">
+                        <h2 class="card-title"><i class="fas fa-plus-circle"></i> Add Expense</h2>
+                        <form action="{{ url_for('add_expense') }}" method="POST">
+                            <div class="form-group">
+                                <input type="number" name="amount" step="0.01" placeholder="Amount" required class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="category" placeholder="Category" required class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="description" placeholder="Description" required class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="date" name="date" required class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i> Add Expense</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="predict-expense mt-4">
-                    <h2>Predict Expense</h2>
-                    <form id="predict-form">
-                        <input type="text" name="category" placeholder="Category" required class="form-control mb-2">
-                        <input type="date" name="date" required class="form-control mb-2">
-                        <button type="submit" class="btn btn-info btn-block">Predict</button>
-                    </form>
-                    <p id="prediction-result" class="mt-2"></p>
+                <div class="predict-expense card mt-4">
+                    <div class="card-body">
+                        <h2 class="card-title"><i class="fas fa-crystal-ball"></i> Predict Expense</h2>
+                        <form id="predict-form">
+                            <div class="form-group">
+                                <input type="text" name="category" placeholder="Category" required class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="date" name="date" required class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-info btn-block"><i class="fas fa-magic"></i> Predict</button>
+                        </form>
+                        <p id="prediction-result" class="mt-2 text-center"></p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-9 main-content">
-                <div class="expense-list">
-                    <h2>Expenses</h2>
-                    <p class="total-expenses">Total Expenses: ${{ "%.2f"|format(total_expenses) }}</p>
-                    <ul class="list-group">
-                        {% for expense in expenses %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>${{ "%.2f"|format(expense.amount) }} - {{ expense.category }} - {{ expense.description }} ({{ expense.date.strftime('%Y-%m-%d') }})</span>
-                            <form action="{{ url_for('remove_expense', id=expense.id) }}" method="POST" class="d-inline">
-                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                            </form>
-                        </li>
-                        {% endfor %}
-                    </ul>
+                <div class="expense-list card">
+                    <div class="card-body">
+                        <h2 class="card-title"><i class="fas fa-list"></i> Expenses</h2>
+                        <p class="total-expenses">Total Expenses: ${{ "%.2f"|format(total_expenses) }}</p>
+                        <ul class="list-group">
+                            {% for expense in expenses %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center expense-item">
+                                <span>
+                                    <i class="fas fa-tag category-icon"></i> {{ expense.category }}<br>
+                                    <small>{{ expense.description }} ({{ expense.date.strftime('%Y-%m-%d') }})</small>
+                                </span>
+                                <span>
+                                    <strong>${{ "%.2f"|format(expense.amount) }}</strong>
+                                    <form action="{{ url_for('remove_expense', id=expense.id) }}" method="POST" class="d-inline">
+                                        <button type="submit" class="btn btn-danger btn-sm ml-2"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
                 <div class="charts mt-4">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="chart-container">
-                                <canvas id="categoryChart"></canvas>
+                            <div class="chart-container card">
+                                <div class="card-body">
+                                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Expenses by Category</h3>
+                                    <canvas id="categoryChart"></canvas>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="chart-container">
-                                <canvas id="timeChart"></canvas>
+                            <div class="chart-container card">
+                                <div class="card-body">
+                                    <h3 class="card-title"><i class="fas fa-chart-line"></i> Expenses Over Time</h3>
+                                    <canvas id="timeChart"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
