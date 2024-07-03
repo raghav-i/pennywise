@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Fetch and render category chart
-    fetch('/expenses_by_category')
+ fetch('/expenses_by_category')
     .then(response => response.json())
     .then(data => {
         const ctx = document.getElementById('categoryChart').getContext('2d');
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 plugins: {
                     legend: {
-                        position: 'right',
+                        position: 'bottom', // Changed from 'right' to 'bottom'
                         labels: {
                             boxWidth: 12,
                             font: {
@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             }
                         }
                     },
-
                 }
             }
         });
@@ -62,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/expenses_over_time')
         .then(response => response.json())
         .then(data => {
+            console.log('Fetched data:', data);
             const ctx = document.getElementById('timeChart').getContext('2d');
             new Chart(ctx, {
                 type: 'line',
@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: true,
                     title: {
                         display: true,
                         text: 'Expenses Over Time'
@@ -92,6 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 }
-            });
+            })
+            .catch(error => console.error('Error:', error));
         });
+        
 });

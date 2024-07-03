@@ -102,8 +102,10 @@ h1, h2, h3 {
     padding: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     height: 300px;
-    position: relative; /* Add this line */
+    position: relative; 
 }
+
+
 
 .category-icon {
     margin-right: 5px;

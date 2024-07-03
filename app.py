@@ -65,6 +65,7 @@ def expenses_by_category():
 def expenses_over_time():
     expenses = Expense.query.order_by(Expense.date).all()
     data = [{'date': expense.date.strftime('%Y-%m-%d'), 'amount': expense.amount} for expense in expenses]
+    print('Expenses data:', data)  
     return jsonify(data)
 
 if __name__ == '__main__':
