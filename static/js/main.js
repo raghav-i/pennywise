@@ -77,6 +77,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 options: {
                     responsive: true,
                     maintainAspectRatio: true,
+
+                    layout: {
+                        padding: {
+                            left: 10,
+                            right: 10,
+                            top: 5,
+                            bottom: 5
+                        }
+                    },
                     title: {
                         display: true,
                         text: 'Expenses Over Time'
