@@ -41,7 +41,7 @@ The application incorporates several ML techniques to provide predictive insight
 
 ## Screenshot
 
-![pennywise]()
+![pennywise](https://github.com/raghav-i/pennywise/blob/main/pennywise.jpeg)
 
 
 ## Installation and Setup
