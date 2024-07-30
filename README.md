@@ -39,6 +39,11 @@ The application incorporates several ML techniques to provide predictive insight
 4. **Model Evaluation**: Use R² score to assess the predictive power of the model.
 5. **Prediction**: Apply the trained model to forecast future expenses.
 
+## Screenshot
+
+![pennywise]()
+
+
 ## Installation and Setup
 
 1. Clone the repository
